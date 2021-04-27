@@ -3,6 +3,8 @@ package ee.bcs.valiit.tasks;
 public class Lesson2c {
 
     public static void main(String[] args) {
+        System.out.println(sequence3n(10,20));
+
 
     }
 
@@ -27,7 +29,13 @@ public class Lesson2c {
     // kutsuge iga väärtuse korral välja meetodit getSeqLength
     // salvestage maha kõige suurem ja funktsiooni lõpus tagastage see
     public static int sequence3n(int x, int y) {
-        return 0;
+        int longestNumber = 0;
+        for (int i = x; i <= y; i++) { //iga tulemuse getSeqLength ehk x-y vahemik
+            if (getSeqLength(i) > longestNumber) { //milline on pikim getSeqLength -- if kohal[i]>longestNumber - return kohal[i] olev tulemus
+                longestNumber=getSeqLength(i);
+            }
+        }
+        return longestNumber;
     }
 
     // TODO 2
@@ -35,17 +43,27 @@ public class Lesson2c {
     // x = 2 -> 2
     // kutsuge välja meetodit nextElement nii kaua kuni vastus tuleb 1
     // tagastage korduste arv + 1
-    public static int getSeqLength(int x){
-        return 0;
+    public static int getSeqLength(int x) {
+        int i = 1;
+        while (1 < x) {
+            x = nextElement(x);
+            i++;
+        }
+        return i;
     }
 
     // TODO 1
     // x = 1 -> 4
     // x = 2 -> 1
     // x = 3 -> 10
-    public static int nextElement(int x){
+    public static int nextElement(int x) {
         // TODO tagasta sequence järgmine element
-        return 0;
+        //tagasta sequence järgmine element
+        if (x % 2 == 0) {
+            return x / 2;
+        } else {
+            return x * 3 + 1;
+        }
     }
 
 }

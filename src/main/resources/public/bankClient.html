@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank</title>
+    <link rel="stylesheet" href="bankClient.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="w3-top">
+    <div class="w3-row w3-large w3-light-grey">
+        <div class="w3-col s3">
+            <a href="#" class="w3-button w3-block">Home</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#create" class="w3-button w3-block">Create account</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#check" class="w3-button w3-block">Check balance</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#deposit" class="w3-button w3-block">Deposit money</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#withdraw" class="w3-button w3-block">Withdraw money</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#transfer" class="w3-button w3-block">Transfer money</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#lockit" class="w3-button w3-block">Lock account</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#unlockit" class="w3-button w3-block">Unlock account</a>
+        </div>
+    </div>
+</div>
+<div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
+    <div class="w3-center w3-panel">
+        <h1>TRIIN'S BANK SERVICES</h1>
+    </div>
+    <div class="w3-container">
+        <div class="w3-display-container">
+            <img src="https://i.kym-cdn.com/entries/icons/original/000/005/574/takemymoney.jpg" alt="pilt"
+                 style="width:100%">
+            <div class="w3-display-topleft w3-container w3-padding-32">
+                <span class="w3-white w3-padding-large w3-animate-bottom">Let's make money move!</span>
+            </div>
+        </div>
+    </div>
+    <div class="w3-center w3-padding-64">
+        <span class="w3-xlarge w3-bottombar w3-border-dark-grey w3-padding-16" id="create"> Create account</span>
+    </div>
+    <table class="w3-container">
+        <div class="w3-center w3-section">
+            <p>Please fill in the blanks:</p>
+            <label>Name</label>
+            <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type="text" id="name"
+                   required>
+        </div>
+        <div class="w3-center w3-section">
+            <label>Account number</label>
+            <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type="text"
+                   id="accountnr"
+                   required>
+        </div>
+        <div class="w3-center w3-section">
+            <label>Balance</label>
+            <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" id="balance" required>
+        </div>
+        <div class="w3-center w3-section">
+            <label>Locked</label>
+            <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" id="lock" required>
+        </div>
+        <button type="submit" class="w3-center w3-button w3-block w3-black" style="width: 100%;" id="createButton">
+            Create
+        </button>
+    </table>
+    <script>
+        let name = document.getElementById("name"); //sulgudes viitab täpselt ülal antud input id nimele
+        let accountnr = document.getElementById("accountnr");
+        let balance = document.getElementById("balance");
+        let lock = document.getElementById("lock");
+        let createButton = document.getElementById("createButton")
+        createButton.onclick = function () {
+            let requestObject = {
+                'ownerName': name.value, //siin jutumärkides peab vastama classis olevatele nimetustele
+                'accountNr': accountnr.value,
+                'balance': balance.value,
+                'locked': lock.value
+            }
+            let url = "http://localhost:8080/banksql2/create";
+            let configuration = {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(function (response) {
+                    // console.log(response) //näitab console logis teadet, kas läks läbi või mitte
+                    if (response.status > 200) {
+                        alert("Cannot create account, please try again")
+                    } else {
+                        alert("Account successfully created!")
+                    }
+                    name.value = "";
+                    accountnr.value = "";
+                    balance.value = "";
+                    lock.value = ""
+                })
+        }
+    </script>
+
+
+    <div class="w3-center w3-padding-64">
+        <span class="w3-xlarge w3-bottombar w3-border-dark-grey w3-padding-16" id="check">Check balance</span>
+    </div>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter account number:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type id="accountnrCheck">
+    </div>
+    </p>
+    <button type="submit" class="w3-button w3-block w3-black" style="width: 100%;" id="checkButton">Check
+    </button>
+    <p class="w3-center">
+        <span id="checkAnswer"></span>
+    </p>
+    <script>
+        let accountnrCheck = document.getElementById("accountnrCheck");
+        let checkButton = document.getElementById("checkButton");
+        let checkAnswer = document.getElementById("checkAnswer")
+        checkButton.onclick = function () {
+            fetch("http://localhost:8080/banksql2/check/" + accountnrCheck.value)
+                .then(response => response.text())
+                .then(text => {
+                    checkAnswer.innerText = text; //võtab texti methodist endast
+                    accountnrCheck.value = ""
+                })
+        }
+    </script>
+
+
+    <div class="w3-center w3-padding-64">
+        <span class="w3-xlarge w3-bottombar w3-border-dark-grey w3-padding-16" id="deposit">Deposit money</span>
+    </div>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter account number:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type
+               id="accountnrDeposit">
+    </div>
+    </p>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter amount:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type id="depositAmount">
+    </div>
+    </p>
+    <button type="submit" class="w3-button w3-block w3-black" style="width: 100%;" id="depositButton">Deposit
+    </button>
+    <p class="w3-center">
+        <span id="depositAnswer"></span>
+    </p>
+    <!--        <h3>Deposit money</h3>-->
+    <!--        <p>Please enter account number:</p>-->
+    <!--        <p><input type id="accountnrDeposit"></p>-->
+    <!--        <p>Please enter amount:</p>-->
+    <!--        <p><input type id="depositAmount"></p>-->
+    <!--        <button type id="depositButton">Deposit</button>-->
+    <!--        <p>-->
+    <!--            <span id="depositAnswer"></span>-->
+    <!--        </p>-->
+    <script>
+        let accountnrDeposit = document.getElementById("accountnrDeposit");
+        let depositAmount = document.getElementById("depositAmount");
+        let depositButton = document.getElementById("depositButton");
+        let depositAnswer = document.getElementById("depositAnswer")
+        depositButton.onclick = function () {
+            let requestObject = {
+                'accountNr': accountnrDeposit.value,
+                'amount': depositAmount.value
+            }
+            let url = "http://localhost:8080/banksql2/deposit";
+            let configuration = {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(text => {
+                    depositAnswer.innerText = text;
+                    accountnrDeposit = "";
+                    depositAmount = ""
+                })
+        }
+    </script>
+
+
+    <div class="w3-center w3-padding-64">
+        <span class="w3-xlarge w3-bottombar w3-border-dark-grey w3-padding-16" id="withdraw">Withdraw money</span>
+    </div>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter account number:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type
+               id="accountnrWithdraw">
+    </div>
+    </p>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter amount:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type id="withdrawAmount">
+    </div>
+    </p>
+    <button type="submit" class="w3-button w3-block w3-black" style="width: 100%;" id="withdrawButton">Withdraw
+    </button>
+    <p class="w3-center">
+        <span id="withdrawAnswer"></span>
+    </p>
+    <!--    <h3>Withdraw money</h3>-->
+    <!--    <p>Please enter account number:</p>-->
+    <!--    <p><input type id="accountnrWithdraw"></p>-->
+    <!--    <p>Please enter amount:</p>-->
+    <!--    <p><input type id="withdrawAmount"></p>-->
+    <!--    <button type id="withdrawButton">Withdraw</button>-->
+    <!--    <p>-->
+    <!--        <span id="withdrawAnswer"></span>-->
+    <!--    </p>-->
+    <script>
+        let accountnrWithdraw = document.getElementById("accountnrWithdraw");
+        let withdrawAmount = document.getElementById("withdrawAmount");
+        let withdrawButton = document.getElementById("withdrawButton");
+        let withdrawAnswer = document.getElementById("withdrawAnswer")
+        withdrawButton.onclick = function () {
+            let requestObject = {
+                'accountNr': accountnrWithdraw.value,
+                'amount': withdrawAmount.value
+            }
+            let url = "http://localhost:8080/banksql2/withdraw";
+            let configuration = {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(text => {
+                    withdrawAnswer.innerText = text;
+                    accountnrWithdraw = "";
+                    withdrawAmount = "";
+                })
+        }
+    </script>
+
+
+    <div class="w3-center w3-padding-64">
+        <span class="w3-xlarge w3-bottombar w3-border-dark-grey w3-padding-16" id="transfer">Transfer money</span>
+    </div>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter the from account number:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type
+               id="accountnrTransferFrom">
+    </div>
+    </p>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter the to account number:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type
+               id="accountnrTransferTo">
+    </div>
+    </p>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter amount:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type id="transferAmount">
+    </div>
+    </p>
+    <button type="submit" class="w3-button w3-block w3-black" style="width: 100%;" id="transferButton">Transfer
+    </button>
+    <p class="w3-center">
+        <span id="transferAnswer"></span>
+    </p>
+    <!--    <h3>Transfer money</h3>-->
+    <!--    <p>Please enter the from account number:</p>-->
+    <!--    <p><input type id="accountnrTransferFrom"></p>-->
+    <!--    <p>Please enter the to account number:</p>-->
+    <!--    <p><input type id="accountnrTransferTo"></p>-->
+    <!--    <p>Please enter amount:</p>-->
+    <!--    <p><input type id="transferAmount"></p>-->
+    <!--    <button type id="transferButton">Transfer</button>-->
+    <!--    <p>-->
+    <!--        <span id="transferAnswer"></span>-->
+    <!--    </p>-->
+    <script>
+        let accountnrTransferFrom = document.getElementById("accountnrTransferFrom");
+        let accountnrTransferTo = document.getElementById("accountnrTransferTo");
+        let transferAmount = document.getElementById("transferAmount");
+        let transferButton = document.getElementById("transferButton");
+        let transferAnswer = document.getElementById("transferAnswer")
+        transferButton.onclick = function () {
+            let requestObject = {
+                'accountFromNr': accountnrTransferFrom.value,
+                'accountToNr': accountnrTransferTo.value,
+                'amount': transferAmount.value
+            }
+            let url = "http://localhost:8080/banksql2/transfer";
+            let configuration = {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(text => {
+                    transferAnswer.innerText = text;
+
+                })
+        }
+    </script>
+
+
+    <div class="w3-center w3-padding-64">
+        <span class="w3-xlarge w3-bottombar w3-border-dark-grey w3-padding-16" id="lockit">Lock account</span>
+    </div>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter account number:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type id="lockAccuntnr">
+    </div>
+    </p>
+    <button type="submit" class="w3-button w3-block w3-black" style="width: 100%;" id="lockButton">Lock
+    </button>
+    <p class="w3-center">
+        <span id="lockAnswer"></span>
+    </p>
+    <!--    <h3>Lock account</h3>-->
+    <!--    <p>Please enter account number:</p>-->
+    <!--    <p><input type id="lockAccuntnr"></p>-->
+    <!--    <button type id="lockButton">Lock</button>-->
+    <!--    <p>-->
+    <!--        <span id="lockAnswer"></span>-->
+    <!--    </p>-->
+    <script>
+        let lockAccuntnr = document.getElementById("lockAccuntnr");
+        let lockButton = document.getElementById("lockButton");
+        let lockAnswer = document.getElementById("lockAnswer")
+        lockButton.onclick = function () {
+            let url = "http://localhost:8080/banksql2/lock/" + lockAccuntnr.value;
+            let configuration = {
+                method: 'PUT',
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(text => {
+                    lockAnswer.innerText = text
+                })
+        }
+    </script>
+
+
+    <div class="w3-center w3-padding-64">
+        <span class="w3-xlarge w3-bottombar w3-border-dark-grey w3-padding-16" id="unlockit">Unlock account</span>
+    </div>
+    <p class="w3-center w3-container">
+    <div class="w3-center w3-section">
+        <p>Please enter account number:</p>
+        <input class="w3-center w3-input w3-border w3-hover-border-black" style="width:100%;" type id="unlockAccuntnr">
+    </div>
+    </p>
+    <button type="submit" class="w3-button w3-block w3-black" style="width: 100%;" id="unlockButton">Unlock
+    </button>
+    <p class="w3-center">
+        <span id="unlockAnswer"></span>
+    </p>
+    <!--    <h3>Unlock account</h3>-->
+    <!--    <p>Please enter account number:</p>-->
+    <!--    <p><input type id="unlockAccuntnr"></p>-->
+    <!--    <button type id="unlockButton">Unlock</button>-->
+    <!--    <p>-->
+    <!--        <span id="unlockAnswer"></span>-->
+    <!--    </p>-->
+    <script>
+        let unlockAccuntnr = document.getElementById("unlockAccuntnr");
+        let unlockButton = document.getElementById("unlockButton");
+        let unlockAnswer = document.getElementById("unlockAnswer")
+        unlockButton.onclick = function () {
+            let url = "http://localhost:8080/banksql2/unlock/" + unlockAccuntnr.value;
+            let configuration = {
+                method: 'PUT',
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(text => {
+                    unlockAnswer.innerText = text
+                })
+        }
+    </script>
+</div>
+<footer class="w3-container w3-padding-32 w3-light-grey w3-center">
+    <h4>Always happy to take your money!</h4>
+    <div class="w3-xlarge w3-section">
+        <i class="fa fa-linkedin w3-hover-opacity"></i>
+    </div>
+    <p>Powered by <a href="https://www.linkedin.com/in/triin-salmus/" title="awesomeness" target="_blank"
+                     class="w3-hover-text-green">awesomeness</a></p>
+</footer>
+</body>
+</html>

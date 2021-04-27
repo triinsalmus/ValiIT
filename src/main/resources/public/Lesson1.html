@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lesson Solutions</title>
+    <style>
+        h1 {
+            font-family: "Comic Sans MS";
+            font-variant: all-small-caps;
+            font-weight: bold;
+            text-decoration: underline;
+            color: #d02172;
+            font-size: 1.5em;
+        }
+        p {
+            font-family: fantasy;
+            font-variant: unicase;
+            font-weight: lighter;
+            color: #ec1885;
+        }
+        body {
+            background: #f3aebe;
+        }
+        button {
+            color: black;
+            border-block-style: wave;
+            background: #e998c4;
+        }
+    </style>
+</head>
+<body>
+<h1>Show minimal number</h1>
+a: <input id="minA"> b: <input id="minB">
+<button id="minButton">Show</button>
+<p>
+    Minimal number is: <span id="minAnswer"></span>
+</p>
+<script>
+    let minA = document.getElementById("minA");
+    let minB = document.getElementById("minB");
+    let minButton = document.getElementById("minButton");
+    minButton.onclick = function () {
+        let minAnswer = document.getElementById("minAnswer");
+        let a = minA.value;
+        let b = minB.value;
+        if (Number(a) < Number(b)) {
+            minAnswer.innerText = a;
+        } else {
+            minAnswer.innerText = b;
+        }
+    }
+</script>
+
+<h1>Show maximal number</h1>
+a: <input id="maxA"> b: <input id="maxB">
+<button id="maxButton">Show</button>
+<p>
+    Maximal number is: <span id="maxAnswer"></span>
+</p>
+<script>
+    let minA = document.getElementById("maxA");
+    let minB = document.getElementById("maxB");
+    let minButton = document.getElementById("maxButton");
+    minButton.onclick = function () {
+        let minAnswer = document.getElementById("maxAnswer");
+        let a = minA.value;
+        let b = minB.value;
+        if (Number(a) > Number(b)) {
+            minAnswer.innerText = a;
+        } else {
+            minAnswer.innerText = b;
+        }
+    }
+</script>
+
+<h1>Show absolute number</h1>
+a: <input id="number">
+<button id="absButton">Show</button>
+<p>
+    Absolute number is: <span id="absAnswer"></span>
+</p>
+<script>
+    let number = document.getElementById("number");
+    let absButton = document.getElementById("absButton");
+    absButton.onclick = function () {
+        let absAnswer = document.getElementById("absAnswer");
+        let a = number.value;
+        if (Number(a) < 0) {
+            absAnswer.innerText = -a;
+        } else {
+            absAnswer.innerText = a;
+        }
+    }
+</script>
+
+<h1>Is the number even?</h1>
+a: <input id="evenNr">
+<button id="evenButton">Show</button>
+<p>
+    Is it: <span id="evenAnswer"></span>
+</p>
+<script>
+    let evenNr = document.getElementById("evenNr");
+    let evenButton = document.getElementById("evenButton");
+    evenButton.onclick = function () {
+        let evenAnswer = document.getElementById("evenAnswer");
+        let a = evenNr.value;
+        if (Number(a) % 2 === 0) {
+            evenAnswer.innerText = "Yes";
+        } else {
+            evenAnswer.innerText = "No";
+        }
+    }
+</script>
+
+<h1>Show minimal of three numbers</h1>
+a: <input id="min3a"> b: <input id="min3b"> c: <input id="min3c">
+<button id="min3Button">Show</button>
+<p>
+    Minimal is: <span id="min3Answer"></span>
+</p>
+<script>
+    let min3a = document.getElementById("min3a");
+    let min3b = document.getElementById("min3b");
+    let min3c = document.getElementById("min3c");
+    let min3Button = document.getElementById("min3Button");
+    min3Button.onclick = function () {
+        let min3Answer = document.getElementById("min3Answer");
+        let a = min3a.value;
+        let b = min3b.value;
+        let c = min3c.value;
+        if (Number(a) <= Number(b) && Number(a) <= Number(c)) {
+            min3Answer.innerText = a;
+        } else if (Number(b) <= Number(a) && Number(b) <= Number(c)) {
+            min3Answer.innerText = b;
+        } else {
+            min3Answer.innerText = c;
+        }
+    }
+</script>
+
+<h1>Show maximal of three numbers</h1>
+a: <input id="max3a"> b: <input id="max3b"> c: <input id="max3c">
+<button id="max3Button">Show</button>
+<p>
+    Maximal is: <span id="max3Answer"></span>
+</p>
+<script>
+    let max3a = document.getElementById("max3a");
+    let max3b = document.getElementById("max3b");
+    let max3c = document.getElementById("max3c");
+    let max3Button = document.getElementById("max3Button");
+    max3Button.onclick = function () {
+        let max3Answer = document.getElementById("max3Answer");
+        let a = max3a.value;
+        let b = max3b.value;
+        let c = max3c.value;
+        if (Number(a) <= Number(b) && Number(a) <= Number(c)) {
+            max3Answer.innerText = a;
+        } else if (Number(b) <= Number(a) && Number(b) <= Number(c)) {
+            max3Answer.innerText = b;
+        } else {
+            max3Answer.innerText = c;
+        }
+    }
+</script>
+
+
+</body>
+</html>
