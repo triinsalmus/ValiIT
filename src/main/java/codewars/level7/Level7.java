@@ -51,30 +51,33 @@ public class Level7 {
      * Good luck!
      */
 
-    public static int[] solve(int[] arr) {
-        int[] solveArray = new int[arr.length];
-        int i = 0;
-        int j = i + 1;
-        int max;
-        int min;
-
-        while (i < arr.length) {
+//    public static int[] solve(int[] arr) {
+//        int[] solveArray = new int[arr.length];
+//        int i = 0;
+//        int j = i + 1;
+//        int x = arr.length;
+//
+//        while (x <= arr.length+1) {
 //            int temp = arr[i];
-//            while (j <= arr.length) {
+//            int max;
+//            int min;
+//            while (j <= arr.length + 1) {
 //                if (arr[i] >= temp) {
 //                    max = arr[i];
-//                } else if (arr[i] <= temp) {
+//                }
+//                while ()
+//                else if (arr[i] <= temp) {
 //                    min = arr[j];
 //                }
 //                temp = arr[i + 1];
-                solveArray[i] = max;
-                solveArray[j] = min;
-            }
-            i++;
-        }
-
-        return solveArray;
-    }
+//                solveArray[i] = max;
+//                solveArray[j] = min;
+//            }
+//            i = i + 2;
+//        }
+//
+//        return solveArray;
+//    }
 
 
 }

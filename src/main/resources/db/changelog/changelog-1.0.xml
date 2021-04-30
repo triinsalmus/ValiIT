@@ -30,4 +30,12 @@
             <column name="date" type="date"/>
         </createTable>
     </changeSet>
+    <changeSet id="2021-04-29 login table" author="Triin Salmus">
+        <createTable tableName="user_info">
+            <column name="username" type="text">
+                <constraints unique="true"/>
+            </column>
+            <column name="password" type="text"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

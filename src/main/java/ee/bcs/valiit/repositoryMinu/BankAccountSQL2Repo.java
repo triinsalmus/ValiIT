@@ -2,12 +2,15 @@ package ee.bcs.valiit.repositoryMinu;
 
 import lahendused.BankAccountClass;
 import lahendused.BankAccountClassRowMapper;
+//import lahendused.TransactionClass;
+import lahendused.LoginRequest;
+import liquibase.pro.packaged.O;
+import liquibase.pro.packaged.S;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +18,36 @@ import java.util.Map;
 @Repository
 public class BankAccountSQL2Repo {
 
-    Date date = new Date();
-    Timestamp timestamp = new Timestamp(date.getTime());
+    LocalDateTime localDateTime = LocalDateTime.now();
+//    Date date = new Date();
+//    Timestamp timestamp = new Timestamp(date.getTime());
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+
+    public void createUser(LoginRequest body) {
+        String userSQL = "INSERT INTO user_info(username, password) VALUES (:username,:password)";
+        Map<String, Object> createUserMap = new HashMap<>();
+        createUserMap.put("username", body.getUsername());
+        createUserMap.put("password", body.getPassword());
+        jdbcTemplate.update(userSQL, createUserMap);
+    }
+
+    public String isUser(String username) {
+        String userSQL = "SELECT username FROM user_info WHERE username=:dbusername";
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("dbusername", username);
+        String isUser = jdbcTemplate.queryForObject(userSQL, userMap, String.class);
+        return isUser;
+    }
+
+    public String returnPassword(String username) {
+        String passwSQL = "SELECT password FROM user_info WHERE username=:dbusername";
+        Map<String, Object> returnUserMap = new HashMap<>();
+        returnUserMap.put("dbusername", username);
+        String getPassword = jdbcTemplate.queryForObject(passwSQL, returnUserMap, String.class);
+        return getPassword;
+    }
 
     public void create(BankAccountClass body) {
         String sql1 = "INSERT INTO bankaccount(name, accountnr, balance, lock) VALUES (:name,:accountnr, :balance, :lock)";
@@ -68,20 +96,25 @@ public class BankAccountSQL2Repo {
         return jdbcTemplate.query(getAll, new HashMap<>(), new BankAccountClassRowMapper());
     }
 
-    public String getAccountNr(String accountnr) {
-        String getAccount = "SELECT accountnr FROM bankaccount WHERE accountnr=:dbaccountnr";
-        Map<String, Object> getAccountMap = new HashMap<>();
-        getAccountMap.put("dbaccountnr", accountnr);
-        String getAccountNr = jdbcTemplate.queryForObject(getAccount, getAccountMap, String.class);
-        return getAccountNr;
-    }
+//    public List<TransactionClass> getHistory(String accountNr) {
+//        String getHistory="SELECT * FROM transfer_history WHERE accountnr=:dbaccountnr";
+//        return jdbcTemplate.query(getHistory,new HashMap<>(),new TransactionHistoryRepo(accountNr));
+//    }
 
-    public void updateTime(String accountnr, Double amount, Timestamp timestamp) {
+//    public String getAccountNr(String accountnr) {
+//        String getAccount = "SELECT accountnr FROM bankaccount WHERE accountnr=:dbaccountnr";
+//        Map<String, Object> getAccountMap = new HashMap<>();
+//        getAccountMap.put("dbaccountnr", accountnr);
+//        String getAccountNr = jdbcTemplate.queryForObject(getAccount, getAccountMap, String.class);
+//        return getAccountNr;
+//    }
+
+    public void updateTime(String accountnr, Double amount, LocalDateTime localDateTime) {
         String updateTime = "INSERT INTO transfer_history(accountnr, amount, date) VALUES (:dbaccountnr,:dbamount, :dbdate)";
         Map<String, Object> updateTimeMap = new HashMap<>();
         updateTimeMap.put("dbaccountnr", accountnr);
         updateTimeMap.put("dbamount", amount);
-        updateTimeMap.put("dbdate", timestamp);
+        updateTimeMap.put("dbdate", localDateTime);
         jdbcTemplate.update(updateTime, updateTimeMap);
     }
 
