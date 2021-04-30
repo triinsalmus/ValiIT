@@ -16,7 +16,7 @@ public class BankAccountSQLErrorHandler {
 
     @ExceptionHandler(Exception.class) //ei saa ühes handleris olla mitut samast klassist pärinevat exceptionit
     public ResponseEntity<Object> handleError500(Exception exception) {
-        //exception.printStackTrace(); //prindime teate - pole vaja, kui services juba prindime
+        exception.printStackTrace(); //prindime teate
         return new ResponseEntity<Object>(new BankAccountSQLErrorResponse(exception.getMessage(), 500),
                 HttpStatus.INTERNAL_SERVER_ERROR); //võid kasutada koguaeg ka ühte errori teadet
     }

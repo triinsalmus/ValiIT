@@ -24,6 +24,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new JwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         http.csrf().disable(); //post ja put mehtodite jaoks vajalik
+//        http.cors(); //kasutatakse, kui ei kasuta Vues proxyt ja on URLid pikalt toodud
     }
 
     @Bean

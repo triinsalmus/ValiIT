@@ -1,13 +1,19 @@
 package codewars.level7;
 
+import io.jsonwebtoken.lang.Strings;
+
 import java.util.Arrays;
 
 public class Level7 {
 
     public static void main(String[] args) {
 //        System.out.println(toJadenCase(null));
-        int[] array = {15, 11, 10, 7, 12};
+
+//        int[] array = {15, 11, 10, 7, 12};
 //        System.out.println(Arrays.toString(solve(array)));
+
+//        String numbers = "1 2 -3 4 5";
+//        System.out.println(highAndLow(numbers));
 
     }
 
@@ -51,33 +57,38 @@ public class Level7 {
      * Good luck!
      */
 
-//    public static int[] solve(int[] arr) {
-//        int[] solveArray = new int[arr.length];
-//        int i = 0;
-//        int j = i + 1;
-//        int x = arr.length;
-//
-//        while (x <= arr.length+1) {
-//            int temp = arr[i];
-//            int max;
-//            int min;
-//            while (j <= arr.length + 1) {
-//                if (arr[i] >= temp) {
-//                    max = arr[i];
-//                }
-//                while ()
-//                else if (arr[i] <= temp) {
-//                    min = arr[j];
-//                }
-//                temp = arr[i + 1];
-//                solveArray[i] = max;
-//                solveArray[j] = min;
-//            }
-//            i = i + 2;
-//        }
-//
-//        return solveArray;
-//    }
+    public static int[] solve(int[] arr) { //lahendamata
+        int[] solveArray = new int[arr.length];
+//        Arrays.sort(arr);
+        return solveArray;
+    }
+
+    /**
+     * In this little assignment you are given a string of space separated numbers, and have to return the highest and lowest number.
+     * Example:
+     * highAndLow("1 2 3 4 5")  // return "5 1"
+     * highAndLow("1 2 -3 4 5") // return "5 -3"
+     * highAndLow("1 9 3 4 -5") // return "9 -5"
+     * Notes:
+     * All numbers are valid Int32, no need to validate them.
+     * There will always be at least one number in the input string.
+     * Output string must be two numbers separated by a single space, and highest number is first.
+     */
+    public static String highAndLow(String numbers) {
+        String[] stringArray = numbers.split(" ");
+        int[] intArray = new int[stringArray.length];
+        int min = Integer.parseInt(stringArray[0]);
+        int max = Integer.parseInt(stringArray[0]);
+        for (int i = 0; i < stringArray.length; i++) {
+            intArray[i] = Integer.parseInt(stringArray[i]);
+            if (intArray[i] < min) {
+                min = intArray[i];
+            } else if (intArray[i] > max) {
+                max = intArray[i];
+            }
+        }
+        return max + " " + min;
+    }
 
 
 }

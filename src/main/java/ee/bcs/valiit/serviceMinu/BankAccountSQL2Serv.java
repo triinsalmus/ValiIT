@@ -13,6 +13,8 @@ import lahendused.MoveMoney;
 //import lahendused.TransactionClass;
 import lahendused.Transfer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -30,10 +32,19 @@ public class BankAccountSQL2Serv {
     @Autowired
     private BankAccountSQL2Repo bankAccountSQL2Repo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+//    public void encodePassword(String password) {
+//
+//    }
+
     public void createUser(LoginRequest body) {
         try {
             if (body.getUsername() != null && body.getPassword() != null) {
-                bankAccountSQL2Repo.createUser(body);
+                String encodedPassword = passwordEncoder.encode(body.getPassword()); //encodime passwordi
+                body.setPassword(encodedPassword); //seame body classis passwordi encodetuks
+                bankAccountSQL2Repo.createUser(body); //salvestame andmebaasi encodetud passwordi
             }
         } catch (Exception exception) {
             throw new BankAccountSQLException("This user already exists");
@@ -42,20 +53,20 @@ public class BankAccountSQL2Serv {
 
     public String login(LoginRequest body) {
         try {
-        if (bankAccountSQL2Repo.isUser(body.getUsername()) != null &&
-                bankAccountSQL2Repo.returnPassword(body.getUsername()).equals(body.getPassword())) {
-            Date today = new Date();
-            Date tokenExpirationDate = new Date(today.getTime() + 1000 * 60 * 60 * 24);
-            JwtBuilder jwtBuilder = Jwts.builder()
-                    .setExpiration(tokenExpirationDate)
-                    .setIssuedAt(new Date())
-                    .signWith(SignatureAlgorithm.HS256, "c2vjcmV0") //password on Base64 encode-st läbi lastud; kasutame vaid logini genereerimiseks
-                    .claim("username", body.getUsername());
-            return jwtBuilder.compact();
-        } else {
-            return "Try again";
-        }
-        } catch (Exception exception) {
+            if (bankAccountSQL2Repo.isUser(body.getUsername()) != null &&
+                    passwordEncoder.matches(body.getPassword(), bankAccountSQL2Repo.returnPassword(body.getUsername()))) { //kontrollime juba encodetud passwordi andmebaasis oleva encoded passwordiga
+                Date today = new Date();
+                Date tokenExpirationDate = new Date(today.getTime() + 1000 * 60 * 60 * 24);
+                JwtBuilder jwtBuilder = Jwts.builder()
+                        .setExpiration(tokenExpirationDate)
+                        .setIssuedAt(new Date())
+                        .signWith(SignatureAlgorithm.HS256, "c2vjcmV0") //password on Base64 encode-st läbi lastud; kasutame vaid logini genereerimiseks
+                        .claim("username", body.getUsername());
+                return jwtBuilder.compact();
+            } else {
+                return "Try again";
+            }
+        } catch (EmptyResultDataAccessException exception) { //kasuta õiget spetsiifilist exceptionit
             throw new BankAccountSQLException("This user doesn't exist");
         }
     }
