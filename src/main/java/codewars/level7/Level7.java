@@ -15,6 +15,11 @@ public class Level7 {
 //        String numbers = "1 2 -3 4 5";
 //        System.out.println(highAndLow(numbers));
 
+//        int[] array = {0, -1, -5};
+//        System.out.println(oddOrEven(array));
+
+//        System.out.println(solution("abc", "d"));
+
     }
 
     /**
@@ -90,5 +95,40 @@ public class Level7 {
         return max + " " + min;
     }
 
+    /**
+     * Given a list of integers, determine whether the sum of its elements is odd or even.
+     * Give your answer as a string matching "odd" or "even".
+     * If the input array is empty consider it as: [0] (array with a zero).
+     */
+    public static String oddOrEven(int[] array) {
+        int sum = 0;
+        String answer = "";
+
+        for (int element : array) {
+            sum += element;
+            if (sum % 2 == 0) {
+                answer = "even";
+            } else {
+                answer = "odd";
+            }
+        }
+        return answer;
+    }
+
+    /**
+     * Complete the solution so that it returns true if the first argument(string)
+     * passed in ends with the 2nd argument (also a string).
+     */
+
+    public static boolean solution(String str, String ending) {
+        for (int i = str.length() - 1; i >= 0; i--) {
+            for (int j = ending.length() - 1; j >= 0; j--) {
+                if (str.charAt(i) == ending.charAt(j)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }
