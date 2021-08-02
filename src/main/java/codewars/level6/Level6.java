@@ -14,7 +14,7 @@ public class Level6 {
 
 //        System.out.println(createPhoneNumber(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0}));
 
-        System.out.println(checkVin("5YJ3E1EA7HF000337"));
+//        System.out.println(checkVin("7JTRH08L5EJ234829"));
     }
 
     /**
@@ -115,7 +115,6 @@ public class Level6 {
 
     /**
      * https://www.codewars.com/kata/60a54750138eac0031eb98e1/train/java
-     * Ei tööta veel päris
      */
 
     public static boolean checkVin(String vin) {
@@ -150,27 +149,27 @@ public class Level6 {
         decodeMap.put('Y', 8);
         decodeMap.put('Z', 9);
 
-        Map<Character, Integer> weightMap = new HashMap<>();
-        weightMap.put(vin.charAt(0), 8);
-        weightMap.put(vin.charAt(1), 7);
-        weightMap.put(vin.charAt(2), 6);
-        weightMap.put(vin.charAt(3), 5);
-        weightMap.put(vin.charAt(4), 4);
-        weightMap.put(vin.charAt(5), 3);
-        weightMap.put(vin.charAt(6), 2);
-        weightMap.put(vin.charAt(7), 10);
-        weightMap.put(vin.charAt(8), 0);
-        weightMap.put(vin.charAt(9), 9);
-        weightMap.put(vin.charAt(10), 8);
-        weightMap.put(vin.charAt(11), 7);
-        weightMap.put(vin.charAt(12), 6);
-        weightMap.put(vin.charAt(13), 5);
-        weightMap.put(vin.charAt(14), 4);
-        weightMap.put(vin.charAt(15), 3);
-        weightMap.put(vin.charAt(16), 2);
+        Map<Integer, Integer> weightMap = new HashMap<>();
+        weightMap.put(0, 8);
+        weightMap.put(1, 7);
+        weightMap.put(2, 6);
+        weightMap.put(3, 5);
+        weightMap.put(4, 4);
+        weightMap.put(5, 3);
+        weightMap.put(6, 2);
+        weightMap.put(7, 10);
+        weightMap.put(8, 0);
+        weightMap.put(9, 9);
+        weightMap.put(10, 8);
+        weightMap.put(11, 7);
+        weightMap.put(12, 6);
+        weightMap.put(13, 5);
+        weightMap.put(14, 4);
+        weightMap.put(15, 3);
+        weightMap.put(16, 2);
 
+        int sum = 0;
         int product = 0;
-
 
         for (int i = 0; i < vin.length(); i++) {
             if (Character.toString(vin.charAt(i)).equals("I") || Character.toString(vin.charAt(i)).equals("O") || Character.toString(vin.charAt(i)).equals("Q")) {
@@ -178,24 +177,23 @@ public class Level6 {
             }
 
             if (Character.isLetter(vin.charAt(i))) {
-                product = decodeMap.get(vin.charAt(i)) * weightMap.get(vin.charAt(i));
+                product = decodeMap.get(vin.charAt(i)) * weightMap.get(i);
             } else {
-                product = vin.charAt(i) * weightMap.get(vin.charAt(i));
+                product = Character.getNumericValue(vin.charAt(i)) * weightMap.get(i);
             }
 
-            product += product;
+            sum += product;
         }
 
-        if (product % 11 == vin.charAt(8)) {
+        if (sum % 11 == Character.getNumericValue(vin.charAt(8))) {
             answer = true;
-        } else if (product % 11 == 10) {
+        } else if (sum % 11 == 10) {
             if (Character.toString(vin.charAt(8)).equals("X")) {
                 answer = true;
             }
         } else {
             answer = false;
         }
-
 
         return answer;
     }
