@@ -11,6 +11,10 @@ public class Level6 {
 //        System.out.println(toCamelCase("The_Stealth_Warrior"));
 
 //        System.out.println(deleteNth(new int[]{20, 37, 20, 21}, 1));
+
+//        System.out.println(createPhoneNumber(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0}));
+
+        System.out.println(checkVin("5YJ3E1EA7HF000337"));
     }
 
     /**
@@ -62,7 +66,6 @@ public class Level6 {
 //        return solveMap.keySet().toArray();
 
 
-
 //        int[] solveArray = new int[0];
 //        int count = 0;
 //
@@ -78,5 +81,123 @@ public class Level6 {
 //
 //    }
 
+    /**
+     * Write a function that accepts an array of 10 integers (between 0 and 9),
+     * that returns a string of those numbers in the form of a phone number.
+     * Example:
+     * createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) // => returns "(123) 456-7890"
+     * The returned format must be correct in order to complete this challenge.
+     * Don't forget the space after the closing parentheses!
+     */
+
+    public static String createPhoneNumber(int[] numbers) {
+        String answer = "";
+        String answer2 = "";
+        String answer3 = "";
+
+        for (int i = 0; i < 3; i++) {
+            int number = numbers[i];
+            answer += number;
+        }
+
+        for (int i = 3; i < 6; i++) {
+            int number = numbers[i];
+            answer2 += number;
+        }
+
+        for (int i = 6; i < numbers.length; i++) {
+            int number = numbers[i];
+            answer3 += number;
+        }
+
+        return "(" + answer + ") " + answer2 + "-" + answer3;
+    }
+
+    /**
+     * https://www.codewars.com/kata/60a54750138eac0031eb98e1/train/java
+     * Ei tööta veel päris
+     */
+
+    public static boolean checkVin(String vin) {
+        boolean answer = true;
+
+        if (vin.length() != 17) {
+            answer = false;
+        }
+
+        Map<Character, Integer> decodeMap = new HashMap<>();
+        decodeMap.put('A', 1);
+        decodeMap.put('B', 2);
+        decodeMap.put('C', 3);
+        decodeMap.put('D', 4);
+        decodeMap.put('E', 5);
+        decodeMap.put('F', 6);
+        decodeMap.put('G', 7);
+        decodeMap.put('H', 8);
+        decodeMap.put('J', 1);
+        decodeMap.put('K', 2);
+        decodeMap.put('L', 3);
+        decodeMap.put('M', 4);
+        decodeMap.put('N', 5);
+        decodeMap.put('P', 7);
+        decodeMap.put('R', 9);
+        decodeMap.put('S', 2);
+        decodeMap.put('T', 3);
+        decodeMap.put('U', 4);
+        decodeMap.put('V', 5);
+        decodeMap.put('W', 6);
+        decodeMap.put('X', 7);
+        decodeMap.put('Y', 8);
+        decodeMap.put('Z', 9);
+
+        Map<Character, Integer> weightMap = new HashMap<>();
+        weightMap.put(vin.charAt(0), 8);
+        weightMap.put(vin.charAt(1), 7);
+        weightMap.put(vin.charAt(2), 6);
+        weightMap.put(vin.charAt(3), 5);
+        weightMap.put(vin.charAt(4), 4);
+        weightMap.put(vin.charAt(5), 3);
+        weightMap.put(vin.charAt(6), 2);
+        weightMap.put(vin.charAt(7), 10);
+        weightMap.put(vin.charAt(8), 0);
+        weightMap.put(vin.charAt(9), 9);
+        weightMap.put(vin.charAt(10), 8);
+        weightMap.put(vin.charAt(11), 7);
+        weightMap.put(vin.charAt(12), 6);
+        weightMap.put(vin.charAt(13), 5);
+        weightMap.put(vin.charAt(14), 4);
+        weightMap.put(vin.charAt(15), 3);
+        weightMap.put(vin.charAt(16), 2);
+
+        int product = 0;
+
+
+        for (int i = 0; i < vin.length(); i++) {
+            if (Character.toString(vin.charAt(i)).equals("I") || Character.toString(vin.charAt(i)).equals("O") || Character.toString(vin.charAt(i)).equals("Q")) {
+                answer = false;
+            }
+
+            if (Character.isLetter(vin.charAt(i))) {
+                product = decodeMap.get(vin.charAt(i)) * weightMap.get(vin.charAt(i));
+            } else {
+                product = vin.charAt(i) * weightMap.get(vin.charAt(i));
+            }
+
+            product += product;
+        }
+
+        if (product % 11 == vin.charAt(8)) {
+            answer = true;
+        } else if (product % 11 == 10) {
+            if (Character.toString(vin.charAt(8)).equals("X")) {
+                answer = true;
+            }
+        } else {
+            answer = false;
+        }
+
+
+        return answer;
+    }
 
 }
