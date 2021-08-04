@@ -3,6 +3,7 @@ package codewars.level7;
 import io.jsonwebtoken.lang.Strings;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Level7 {
 
@@ -20,6 +21,7 @@ public class Level7 {
 
 //        System.out.println(solution("abc", "d"));
 
+        System.out.println(tagCreator("iPhone mini 64GB Purple RT123LA"));
     }
 
     /**
@@ -131,4 +133,18 @@ public class Level7 {
         return false;
     }
 
+    /**
+     * oma mure lahendamiseks:
+     * create a tag from a sentence with both upper- and lowercases,
+     * also tag means that the words should be in lowercase and separated with -
+     */
+
+    public static String tagCreator(String sentence) {
+        String answer = "";
+        String words[] = sentence.toLowerCase().split(" ");
+        for (String word : words) {
+            answer += word + "-";
+        }
+        return answer;
+    }
 }
