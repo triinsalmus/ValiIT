@@ -15,6 +15,10 @@ public class Level6 {
 //        System.out.println(createPhoneNumber(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0}));
 
 //        System.out.println(checkVin("7JTRH08L5EJ234829"));
+
+        String[] array1 = {"arp", "live", "strong"};
+        String[] array2 = {"lively", "alive", "harp", "sharp", "armstrong"};
+        System.out.println(inArray(array1, array2));
     }
 
     /**
@@ -197,5 +201,20 @@ public class Level6 {
 
         return answer;
     }
+
+    /**
+     * https://www.codewars.com/kata/550554fd08b86f84fe000a58/train/java
+     */
+    public static String[] inArray(String[] array1, String[] array2) {
+
+        String[] returnArray = {};
+
+
+        return returnArray;
+    }
+
+    /**
+     * https://www.codewars.com/kata/5282b48bb70058e4c4000fa7
+     */
 
 }
