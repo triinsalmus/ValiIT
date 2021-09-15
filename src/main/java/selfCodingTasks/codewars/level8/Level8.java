@@ -1,4 +1,4 @@
-package codewars.level8;
+package selfCodingTasks.codewars.level8;
 
 import java.util.Arrays;
 

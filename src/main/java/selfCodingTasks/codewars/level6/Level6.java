@@ -1,6 +1,5 @@
-package codewars.level6;
+package selfCodingTasks.codewars.level6;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

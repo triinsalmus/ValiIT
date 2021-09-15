@@ -1,9 +1,4 @@
-package codewars.level7;
-
-import io.jsonwebtoken.lang.Strings;
-
-import java.util.Arrays;
-import java.util.Locale;
+package selfCodingTasks.codewars.level7;
 
 public class Level7 {
 
