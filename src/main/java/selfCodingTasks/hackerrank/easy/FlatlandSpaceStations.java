@@ -29,35 +29,35 @@ public class FlatlandSpaceStations {
         System.out.println(maxDistance(3, 2, array)); //error
     }
 
-    public static int maxDistance(int cities, int howManyCitiesWithSpaceStation, int[] citiesIndexesWithSpaceStation) {
-        if (isCorrect(cities, howManyCitiesWithSpaceStation, citiesIndexesWithSpaceStation) && (cities == howManyCitiesWithSpaceStation)) {
+    public static int maxDistance(int cities, int howManyCities, int[] citiesIndexes) {
+        if (isCorrect(cities, howManyCities, citiesIndexes) && (cities == howManyCities)) {
             return 0;
-        } else if (isCorrect(cities, howManyCitiesWithSpaceStation, citiesIndexesWithSpaceStation)) {
-            return findDistance(cities, citiesIndexesWithSpaceStation);
+        } else if (isCorrect(cities, howManyCities, citiesIndexes)) {
+            return findDistance(cities, citiesIndexes);
         } else {
             System.out.println("Cannot calculate, please check the input");
             return -1;
         }
     }
 
-    public static boolean isCorrect(int cities, int howManyCitiesWithSpaceStation, int[] citiesIndexesWithSpaceStation) {
+    public static boolean isCorrect(int cities, int howManyCities, int[] citiesIndexes) {
         return (cities >= 1 && cities <= Math.pow(10, 5)) &&
-                (howManyCitiesWithSpaceStation >= 1 && howManyCitiesWithSpaceStation <= cities) &&
-                (howManyCitiesWithSpaceStation == citiesIndexesWithSpaceStation.length);
+                (howManyCities >= 1 && howManyCities <= cities) &&
+                (howManyCities == citiesIndexes.length);
     }
 
-    public static int findDistance(int cities, int[] citiesIndexesWithSpaceStation) {
+    public static int findDistance(int cities, int[] citiesIndexes) {
         ArrayList<Integer> citiesMaxDistanceArray = new ArrayList<>();
-        int distanceToNearestSpaceStation = 0;
+        int distanceToNearest = 0;
         for (int i = 0; i < cities; i++) {
-            for (int j = 0; j < citiesIndexesWithSpaceStation.length; j++) {
-                int smallestDistanceToNearestSpaceStation = Math.abs(i - (int) Array.get(citiesIndexesWithSpaceStation, 0));
-                distanceToNearestSpaceStation = Math.abs(i - (int) Array.get(citiesIndexesWithSpaceStation, j));
-                if (distanceToNearestSpaceStation >= smallestDistanceToNearestSpaceStation) {
-                    distanceToNearestSpaceStation = smallestDistanceToNearestSpaceStation;
+            for (int j = 0; j < citiesIndexes.length; j++) {
+                int smallestDistanceToNearest = Math.abs(i - (int) Array.get(citiesIndexes, 0));
+                distanceToNearest = Math.abs(i - (int) Array.get(citiesIndexes, j));
+                if (distanceToNearest >= smallestDistanceToNearest) {
+                    distanceToNearest = smallestDistanceToNearest;
                 }
             }
-            citiesMaxDistanceArray.add(distanceToNearestSpaceStation);
+            citiesMaxDistanceArray.add(distanceToNearest);
         }
         return Collections.max(citiesMaxDistanceArray);
     }
